@@ -4,7 +4,9 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * BIO 服务端
@@ -24,7 +26,8 @@ public class BIOServer {
     try {
 
       // 固定数量的线程池
-      ExecutorService executorService = Executors.newFixedThreadPool(100);
+      ExecutorService executorService = new ThreadPoolExecutor(100, 100, 0L, TimeUnit.MILLISECONDS,
+                                                               new LinkedBlockingQueue<>());
 
       while (true) {
         // 阻塞方法获取新的连接
